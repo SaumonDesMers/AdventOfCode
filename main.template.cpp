@@ -32,12 +32,18 @@ vector<string> split(string s, string sep) {
 	return tab;
 }
 
+int atoi(const string& str)
+{
+	return atoi(str.c_str());
+}
+
 int main()
 {
 	vector<string> lines = readFile("input.txt");
 
-	for (auto& line: lines)
+	for (size_t i = 0; i < lines.size(); i++)
 	{
+		string &line = lines[i];
 		cout << line << endl;
 	}
 
