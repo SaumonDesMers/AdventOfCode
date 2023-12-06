@@ -8,46 +8,33 @@ using namespace std;
 
 vector<string> readFile(string path);
 vector<string> split(string s, string sep);
-vector<uint64_t> vsToVll(const vector<string>& v_in);
-
-
-
+vector<uint64_t> toNb(const vector<string>& v_in);
 
 int main()
 {
 	vector<string> lines = readFile("input.txt");
 
-	for (size_t i = 0; i < lines.size(); i++)
+	vector<uint64_t> times = toNb(split(lines[0], " "));
+	vector<uint64_t> distancesToBeat = toNb(split(lines[1], " "));
+	uint64_t p1_product = 1;
+
+	for (size_t i = 0; i < times.size(); i++)
 	{
-		string &line = lines[i];
-		cout << line << endl;
+		uint64_t solutionNb = 0;
+		for (size_t n = 0; n < times[i]; n++)
+		{
+			if (n * (times[i] - n) > distancesToBeat[i])
+			{
+				solutionNb++;
+			}
+		}
+		p1_product *= solutionNb;
 	}
+
+	cout << p1_product << endl;
 
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -79,7 +66,7 @@ vector<string> split(string s, string sep) {
 	return tab;
 }
 
-vector<uint64_t> vsToVll(const vector<string>& v_in)
+vector<uint64_t> toNb(const vector<string>& v_in)
 {
 	vector<uint64_t> v_out;
 
