@@ -27,36 +27,44 @@ struct Hand
 };
 
 const vector<char> cardType = {
-	'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'
+	'J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A'
 };
 
-int handType(Hand h)
+int handType(string cards)
 {
 	multiset<int> counts;
 	for (auto& type: cardType)
 	{
-		counts.insert(count(h.cards.begin(), h.cards.end(), type));
+		counts.insert(count(cards.begin(), cards.end(), type));
 	}
 
 	if (counts.count(5) == 1)
-		return 18;
+		return 7;
 	if (counts.count(4) == 1)
-		return 17;
+		return 6;
 	if (counts.count(3) == 1 && counts.count(2) == 1)
-		return 16;
+		return 5;
 	if (counts.count(3) == 1)
-		return 15;
+		return 4;
 	if (counts.count(2) == 2)
-		return 14;
+		return 3;
 	if (counts.count(2) == 1)
-		return 13;
-	
-	for (size_t i = cardType.size() - 1; i >= 0; i--)
+		return 2;
+	return 1;
+}
+
+int bestHandType(string cards)
+{
+	// cout << "best type of: " << cards << endl;
+	int bestType = 0;
+	for (auto& ct: cardType)
 	{
-		if (h.cards.find(cardType[i]) != string::npos)
-			return i;
+		string newCards = cards;
+		replace(newCards.begin(), newCards.end(), 'J', ct);
+		// cout << "  " << newCards << " = " << handType(newCards) << endl;
+		bestType = max(bestType, handType(newCards));
 	}
-	return -1;
+	return bestType;
 }
 
 bool sortHands(const Hand & h1, const Hand & h2)
@@ -75,7 +83,7 @@ bool sortHands(const Hand & h1, const Hand & h2)
 
 int main()
 {
-	vector<string> lines = readFile("input_test.txt");
+	vector<string> lines = readFile("input.txt");
 
 	vector<Hand> hands;
 
@@ -83,7 +91,7 @@ int main()
 	{
 		vector<string> tmp = split(lines[i], " ");
 		hands.push_back(Hand(tmp[0], stoll(tmp[1])));
-		hands.back().type = handType(hands.back());
+		hands.back().type = bestHandType(hands.back().cards);
 	}
 
 	sort(hands.begin(), hands.end(), sortHands);
@@ -93,6 +101,7 @@ int main()
 	{
 		p1_sum += hands[i].bid * (i + 1);
 		cout << hands[i].str() << endl;
+		// cout << hands[i].bid << endl;
 	}
 	
 	cout << "Part1: " << p1_sum << endl;
