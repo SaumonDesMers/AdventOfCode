@@ -70,8 +70,8 @@ void applyRange(vector<string>& lines, size_t &i, vector<uint64_t>& input)
 		{
 			if (in >= srcRange && in <= srcRange + size)
 			{
-				cout << "in " << in << " found in range " << destRange << " " << srcRange << " " << size;
-				cout << " and became " << (in + destRange - srcRange) << endl;
+				// cout << "in " << in << " found in range " << destRange << " " << srcRange << " " << size;
+				// cout << " and became " << (in + destRange - srcRange) << endl;
 				output.push_back(in + destRange - srcRange);
 				to_erase.push_back(in);
 			}
@@ -81,11 +81,11 @@ void applyRange(vector<string>& lines, size_t &i, vector<uint64_t>& input)
 	}
 	input.insert(input.end(), output.begin(), output.end());
 
-	cout << "input is now: ";
-	for (auto& in: input)
-		cout << in << " ";
-	cout << endl;
-	cout << endl;
+	// cout << "input is now: ";
+	// for (auto& in: input)
+		// cout << in << " ";
+	// cout << endl;
+	// cout << endl;
 
 }
 
@@ -97,11 +97,11 @@ void part_one()
 
 	size_t i = 2;
 
-	cout << "input is now: ";
-	for (auto& in: input)
-		cout << in << " ";
-	cout << endl;
-	cout << endl;
+	// cout << "input is now: ";
+	// for (auto& in: input)
+		// cout << in << " ";
+	// cout << endl;
+	// cout << endl;
 
 	applyRange(lines, i, input);
 	applyRange(lines, i, input);
@@ -114,10 +114,10 @@ void part_one()
 
 	sort(input.begin(), input.end());
 
-	cout << "input is now: ";
-	for (auto& in: input)
-		cout << in << " ";
-	cout << endl;
+	// cout << "input is now: ";
+	// for (auto& in: input)
+		// cout << in << " ";
+	// cout << endl;
 }
 
 struct Range
@@ -176,17 +176,17 @@ vector<RangeCopy> getRangeCopy(vector<string>& lines, size_t &i)
 
 vector<Range> findOverlaps(RangeCopy &rc, vector<Range>& input)
 {
-	cout << "search overlap with: " << rc.str() << endl;
+	// cout << "search overlap with: " << rc.str() << endl;
 	// find overlaping range
 	vector<Range> overlaps;
 	for (auto& r: input)
 	{
-		cout << "  for " << r.str() << endl;
+		// cout << "  for " << r.str() << endl;
 		bool beginIn = (r.begin >= rc.src.begin && r.begin <= rc.src.end);
 		bool endIn = (r.end >= rc.src.begin && r.end <= rc.src.end);
 
-		cout << boolalpha << "    beginIn = " << beginIn << endl;
-		cout << boolalpha << "    endIn = " << endIn << endl;
+		// cout << boolalpha << "    beginIn = " << beginIn << endl;
+		// cout << boolalpha << "    endIn = " << endIn << endl;
 
 		if (beginIn && !endIn)
 		{
@@ -218,30 +218,30 @@ vector<Range> findOverlaps(RangeCopy &rc, vector<Range>& input)
 			input.push_back(splitedRange);
 		}
 	}
-	cout << "  find overlaps:" << endl;
-	for (auto& o: overlaps)
-		cout << "    " << o.str() << endl;
+	// cout << "  find overlaps:" << endl;
+	// for (auto& o: overlaps)
+		// cout << "    " << o.str() << endl;
 	
 	return overlaps;
 }
 
 vector<Range> transformRanges(vector<Range> overlaps, RangeCopy rc)
 {
-	cout << "  new range are:" << endl;
+	// cout << "  new range are:" << endl;
 	for (auto& r: overlaps)
 	{
 		r.begin += rc.dst.begin - rc.src.begin;
 		r.end += rc.dst.begin - rc.src.begin;
-		cout << "    " << r.str() << endl;
+		// cout << "    " << r.str() << endl;
 	}
 	return overlaps;
 }
 
 void applyRangeCopy(vector<Range>& input, vector<RangeCopy> rangesCopy)
 {
-	cout << "input are:" << endl;
-	for (auto& in: input)
-		cout << "  " << in.str() << endl;
+	// cout << "input are:" << endl;
+	// for (auto& in: input)
+		// cout << "  " << in.str() << endl;
 	
 	vector<Range> output;
 
@@ -254,20 +254,20 @@ void applyRangeCopy(vector<Range>& input, vector<RangeCopy> rangesCopy)
 		output.insert(output.end(), transformedOverlaps.begin(), transformedOverlaps.end());
 	}
 
-	cout << "add non overlaping range:" << endl;
+	// cout << "add non overlaping range:" << endl;
 	for (auto& r: input)
 	{
 		if (r.begin == 0 && r.end == 0) continue;
 
-		cout << "  " << r.str() << endl;
+		// cout << "  " << r.str() << endl;
 		output.push_back(r);
 	}
 
 	sort(output.begin(), output.end(), [](const Range &r1, const Range &r2) { return r1.begin < r2.begin; });
 
-	cout << "full output is:" << endl;
-	for (auto& r: output)
-		cout << "  " << r.str() << endl;
+	// cout << "full output is:" << endl;
+	// for (auto& r: output)
+		// cout << "  " << r.str() << endl;
 	
 	for (size_t i = 0; i+1 < output.size(); i++)
 	{
@@ -288,10 +288,10 @@ void applyRangeCopy(vector<Range>& input, vector<RangeCopy> rangesCopy)
 	auto newEnd = remove_if(output.begin(), output.end(), [](const Range& r) { return r.begin == 0 && r.end == 0; });
 	output.erase(newEnd, output.end());
 
-	cout << "merged output is:" << endl;
-	for (auto& r: output)
-		cout << "  " << r.str() << endl;
-	cout << endl;
+	// cout << "merged output is:" << endl;
+	// for (auto& r: output)
+		// cout << "  " << r.str() << endl;
+	// cout << endl;
 
 	input = output;
 }
@@ -310,9 +310,9 @@ void part_two()
 		inputLine.pop_back();
 	}
 
-	cout << "input:" << endl;
-	for (auto& r: input)
-		cout << r.str() << endl;
+	// cout << "input:" << endl;
+	// for (auto& r: input)
+		// cout << r.str() << endl;
 
 	size_t i = 2;
 	applyRangeCopy(input, getRangeCopy(lines, i));
@@ -322,6 +322,8 @@ void part_two()
 	applyRangeCopy(input, getRangeCopy(lines, i));
 	applyRangeCopy(input, getRangeCopy(lines, i));
 	applyRangeCopy(input, getRangeCopy(lines, i));
+
+	cout << input[0].begin << endl;
 
 }
 
