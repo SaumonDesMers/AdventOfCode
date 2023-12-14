@@ -10,7 +10,14 @@ vector<string> readFile(string path);
 vector<string> split(string s, string sep);
 vector<uint64_t> vsToVll(const vector<string>& v_in);
 
-
+template<typename T>
+void print(const vector<T> & v, string sep)
+{
+	for (size_t i = 0; i+1 < v.size(); i++)
+		cout << v[i] << sep;
+	if (!v.empty())
+		cout << v.back() << endl;
+}
 
 
 int main()
