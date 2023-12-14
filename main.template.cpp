@@ -70,12 +70,15 @@ vector<string> split(string s, string sep) {
 	vector<string> tab;
 	size_t i = 0;
 	while ((i = s.find_first_of(sep, i)) != string::npos) {
-		tab.push_back(s.substr(0, i));
+		string subs = s.substr(0, i);
+		if (!subs.empty())
+			tab.push_back(subs);
 		i = s.find_first_not_of(sep, i);
 		s.erase(0, i);
 		i = 0;
 	}
-	tab.push_back(s);
+	if (!s.empty())
+		tab.push_back(s);
 	return tab;
 }
 
